@@ -19,12 +19,12 @@ import java.util.TimerTask
 
 class MainActivity : AppCompatActivity() {
 
-    var lastNumber: Double = 0.0
-    var result :Double = 0.0
-    var currentOperation:Operation? = null
-    val operationMap = mapOf(Operation.PLUS to "+",Operation.MINUS to "-", Operation.MULTIPLICATION to "×", Operation.DIVISION to "÷", Operation.MODULES to "%")
+    private var lastNumber: Double = 0.0
+    private var result :Double = 0.0
+    private var currentOperation:Operation? = null
+    private val operationMap = mapOf(Operation.PLUS to "+",Operation.MINUS to "-", Operation.MULTIPLICATION to "×", Operation.DIVISION to "÷", Operation.MODULES to "%")
 
-    lateinit var binding : ActivityMainBinding
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -113,7 +113,11 @@ class MainActivity : AppCompatActivity() {
         val negSign = "-"
         val oldNumber = binding.resultTextView.text.toString()
         val newTextNumber = negSign + oldNumber
-        binding.resultTextView.text =newTextNumber
+        if(binding.resultTextView.text.toString().find {it=='-'} == '-')
+            binding.resultTextView.text =oldNumber
+
+        else binding.resultTextView.text = newTextNumber
+
     }
 
     fun prepareOperationText(newTextNumber:String){
