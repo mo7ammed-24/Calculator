@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         addCallBacks()
     }
 
-
     fun addCallBacks(){
 
         binding.plusButton .setOnClickListener {
@@ -86,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onClickNumber(v:View){
-        if (binding.resultTextView.text.toString().matches(Regex("^-?\\d+\$")) || binding.resultTextView.text == "" ||  binding.resultTextView.text == "-" || binding.resultTextView.text == "0."){
+        if (binding.resultTextView.text.toString().matches(Regex("^-?\\d+(\\.\\d+)?\$")) || binding.resultTextView.text == "" ||  binding.resultTextView.text == "-" || binding.resultTextView.text == "0."){
                 val newDigit = (v as Button).text.toString()
                 val oldNumber = binding.resultTextView.text.toString()
                 val newTextNumber = oldNumber + newDigit
@@ -142,10 +141,10 @@ class MainActivity : AppCompatActivity() {
         if (binding.resultTextView.text.toString().find { it == '.' } == '.')
             binding.resultTextView.text = oldNumber
         else if (binding.resultTextView.text.toString() == "") {
-            prepareOperationText("0.")
+                prepareOperationText("0.")
             binding.resultTextView.text = "0."
 
-        } else {
+        }else {
             val negDot = "."
             val newTextNumber = oldNumber + negDot
             prepareOperationText(negDot)
@@ -153,12 +152,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun checkPassword(){
-        if(binding.resultTextView.text.toString() == ""){
-            val intent = Intent(this, MainActivity2::class.java)
-            startActivity(intent)
-        }
-    }
 
 
 }
