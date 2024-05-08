@@ -50,7 +50,11 @@ class MainActivity : AppCompatActivity() {
         binding.modulesButton.setOnClickListener {
             prepareOperation(Operation.MODULES)
         }
-        binding.resultTextView.setOnClickListener {
+        binding.resultButton.setOnClickListener {
+            if(binding.resultTextView.text =="2244"){
+                intent = Intent(this, MainActivity2::class.java)
+                startActivity(intent)
+            }
             currentOperation?.let {
                 if (lastNumber !=0.0 && binding.resultTextView .text.toString().toDouble() != 0.0){
                     result = doCurrentOperation()
