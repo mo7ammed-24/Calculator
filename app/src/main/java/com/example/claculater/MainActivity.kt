@@ -3,6 +3,7 @@ package com.example.claculater
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -11,61 +12,49 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.claculater.databinding.ActivityMain2Binding
+import com.example.claculater.databinding.ActivityMainBinding
 import java.util.Timer
 import java.util.TimerTask
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var buttonPlus : Button
-    lateinit var buttonMinus: Button
-    lateinit var buttonMultiplication :Button
-    lateinit var buttonDiv : Button
-    lateinit var buttonModules : Button
-    lateinit var buttonResult :Button
-    lateinit var buttonNegative:Button
-    lateinit var textNumber : TextView
-    lateinit var buttonClear : Button
     var lastNumber: Double = 0.0
     var result :Double = 0.0
     var currentOperation:Operation? = null
-    lateinit var textOperation :TextView
     val operationMap = mapOf(Operation.PLUS to "+",Operation.MINUS to "-", Operation.MULTIPLICATION to "×", Operation.DIVISION to "÷", Operation.MODULES to "%")
 
+    lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        initView()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         addCallBacks()
     }
 
 
     fun addCallBacks(){
-        buttonPlus.setOnClickListener {
+
+        binding.plusButton .setOnClickListener {
             prepareOperation(Operation.PLUS)
         }
-        buttonMinus.setOnClickListener {
+        binding.minusButton.setOnClickListener {
             prepareOperation(Operation.MINUS)
         }
-        buttonMultiplication.setOnClickListener {
+        binding.muliplyButton.setOnClickListener {
             prepareOperation(Operation.MULTIPLICATION)
         }
-        buttonDiv.setOnClickListener {
+        binding.divButton.setOnClickListener {
             prepareOperation(Operation.DIVISION)
         }
-        buttonModules.setOnClickListener {
+        binding.modulesButton.setOnClickListener {
             prepareOperation(Operation.MODULES)
         }
-        buttonResult.setOnClickListener {
+        binding.resultTextView.setOnClickListener {
             currentOperation?.let {
-                if (lastNumber !=0.0 && textNumber.text.toString().toDouble() != 0.0){
+                if (lastNumber !=0.0 && binding.resultTextView .text.toString().toDouble() != 0.0){
                     result = doCurrentOperation()
-                    textNumber.text = result.toString()
+                    binding.resultTextView.text = result.toString()
                 }
 
                 lastNumber = 0.0
@@ -73,14 +62,14 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        buttonClear.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             clearInput()
-            textOperation.text = ""
+            binding.operationTextView.text = ""
         }
     }
 
     private fun doCurrentOperation():Double{
-        val secondNumber = textNumber.text.toString().toDouble()
+        val secondNumber = binding.resultTextView.text.toString().toDouble()
         return  when(currentOperation){
             Operation.PLUS -> lastNumber + secondNumber
             Operation.MINUS -> lastNumber - secondNumber
@@ -91,37 +80,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initView(){
-        buttonPlus = findViewById(R.id.plusButton)
-        buttonMinus = findViewById(R.id.minusButton)
-        buttonMultiplication = findViewById(R.id.muliplyButton)
-        buttonDiv = findViewById(R.id.divButton)
-        textNumber = findViewById(R.id.resultTextView)
-        buttonModules = findViewById(R.id.modulesButton)
-        buttonResult = findViewById(R.id.resultButton)
-        buttonClear = findViewById(R.id.deleteButton)
-        buttonNegative = findViewById(R.id.negativeButton)
-        textOperation = findViewById(R.id.operationTextView)
-    }
-
 
     fun onClickNumber(v:View){
         var newDigit = (v as Button).text.toString()
-        val oldNumber = textNumber.text.toString()
+        val oldNumber = binding.resultTextView.text.toString()
         val newTextNumber = oldNumber + newDigit
-        textNumber.text =newTextNumber
+        binding.resultTextView.text =newTextNumber
         prepareOperationText(newDigit)
     }
     fun clearInput(){
-        textNumber.text =""
+        binding.resultTextView.text =""
     }
     fun prepareOperation(operation: Operation){
-        if(textNumber.text != ""){
+        if(binding.resultTextView.text != ""){
 
-            val temp1  = textNumber.text.toString().toDoubleOrNull()
+            val temp1  = binding.resultTextView.text.toString().toDoubleOrNull()
             lastNumber = temp1!!
             val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
-            textOperation.text = temp2
+            binding.operationTextView.text = temp2
 
         }
         clearInput()
@@ -131,43 +107,43 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickNegative(v: View){
         val negSign = "-"
-        val oldNumber = textNumber.text.toString()
+        val oldNumber = binding.resultTextView.text.toString()
         val newTextNumber = negSign + oldNumber
-        textNumber.text =newTextNumber
+        binding.resultTextView.text =newTextNumber
     }
 
     fun prepareOperationText(newTextNumber:String){
         if(currentOperation!=null){
-            textOperation.text = textOperation.text.toString() + newTextNumber
+            binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
             result = doCurrentOperation()
-            textNumber.text = result.toString()
+            binding.resultTextView.text = result.toString()
             currentOperation = null
         }
         else {
-            val temp = textOperation.text.toString()
+            val temp = binding.operationTextView.text.toString()
             val temp2 = temp + newTextNumber
-            textOperation.text = temp2
+            binding.operationTextView.text = temp2
         }
     }
 
     fun onClickDot(v: View) {
-        val oldNumber = textNumber.text.toString()
-        if (textNumber.text.toString().find { it == '.' } == '.')
-            textNumber.text = oldNumber
-        else if (textNumber.text.toString() == "") {
+        val oldNumber = binding.resultTextView.text.toString()
+        if (binding.resultTextView.text.toString().find { it == '.' } == '.')
+            binding.resultTextView.text = oldNumber
+        else if (binding.resultTextView.text.toString() == "") {
             prepareOperationText("0.")
-            textNumber.text = "0."
+            binding.resultTextView.text = "0."
 
         } else {
             val negDot = "."
             val newTextNumber = oldNumber + negDot
             prepareOperationText(negDot)
-            textNumber.text = newTextNumber
+            binding.resultTextView.text = newTextNumber
         }
     }
 
     fun checkPassword(){
-        if(textNumber.text.toString() == ""){
+        if(binding.resultTextView.text.toString() == ""){
             val intent = Intent(this, MainActivity2::class.java)
             startActivity(intent)
         }
