@@ -86,12 +86,15 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onClickNumber(v:View){
-        var newDigit = (v as Button).text.toString()
-        val oldNumber = binding.resultTextView.text.toString()
-        val newTextNumber = oldNumber + newDigit
-        binding.resultTextView.text =newTextNumber
-        prepareOperationText(newDigit)
+        if (binding.resultTextView.text.toString().matches(Regex("^-?\\d+\$")) || binding.resultTextView.text == "" ||  binding.resultTextView.text == "-" || binding.resultTextView.text == "0."){
+                val newDigit = (v as Button).text.toString()
+                val oldNumber = binding.resultTextView.text.toString()
+                val newTextNumber = oldNumber + newDigit
+                binding.resultTextView.text =newTextNumber
+                prepareOperationText(newDigit)
+            }
     }
+
     fun clearInput(){
         binding.resultTextView.text =""
     }
@@ -121,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun prepareOperationText(newTextNumber:String){
-        if(currentOperation!=null){
+        if(currentOperation!=null && newTextNumber !="0."){
             binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
             result = doCurrentOperation()
             binding.resultTextView.text = result.toString()
