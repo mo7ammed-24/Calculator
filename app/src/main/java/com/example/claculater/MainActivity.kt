@@ -105,7 +105,6 @@ class MainActivity : AppCompatActivity() {
             lastNumber = temp1!!
             val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
             binding.operationTextView.text = temp2
-
         }
         clearInput()
         currentOperation = operation
@@ -152,7 +151,5 @@ class MainActivity : AppCompatActivity() {
             binding.resultTextView.text = newTextNumber
         }
     }
-
-
 
 }
