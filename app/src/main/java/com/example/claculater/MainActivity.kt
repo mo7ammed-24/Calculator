@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.claculater.databinding.ActivityMain2Binding
 import com.example.claculater.databinding.ActivityMainBinding
 import java.util.Timer
 import java.util.TimerTask
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.resultButton.setOnClickListener {
             if(binding.resultTextView.text =="2244"){
-                intent = Intent(this, MainActivity2::class.java)
+                intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
             }
             currentOperation?.let {
