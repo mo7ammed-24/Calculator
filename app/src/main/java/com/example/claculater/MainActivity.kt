@@ -72,13 +72,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun doCurrentOperation():Double{
-        val secondNumber = binding.resultTextView.text.toString().toDouble()
+        val secondNumber = binding.resultTextView.text.toString().toDoubleOrNull()
+        Log.i("KKKKK","this is second : $secondNumber")
+
         return  when(currentOperation){
-            Operation.PLUS -> lastNumber + secondNumber
-            Operation.MINUS -> lastNumber - secondNumber
-            Operation.MULTIPLICATION -> lastNumber * secondNumber
-            Operation.DIVISION -> lastNumber / secondNumber
-            Operation.MODULES -> lastNumber % secondNumber
+            Operation.PLUS -> lastNumber + secondNumber!!
+            Operation.MINUS -> lastNumber - secondNumber!!
+            Operation.MULTIPLICATION -> lastNumber * secondNumber!!
+            Operation.DIVISION -> lastNumber / secondNumber!!
+            Operation.MODULES -> lastNumber % secondNumber!!
             null -> 0.0
         }
     }
@@ -100,11 +102,20 @@ class MainActivity : AppCompatActivity() {
         currentOperation = null
     }
     fun prepareOperation(operation: Operation){
-        if(binding.resultTextView.text != ""){
-            val temp1  = binding.resultTextView.text.toString().toDoubleOrNull()
-            lastNumber = temp1!!
-            val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
-            binding.operationTextView.text = temp2
+        if(binding.resultTextView.text != "" && binding.resultTextView.text!="-"){
+            if(binding.finalResult.text!=""){
+                val temp1  = binding.finalResult.text.toString().toDoubleOrNull()
+                lastNumber = temp1!!
+                val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
+                binding.operationTextView.text = temp2
+            }
+            else{
+                val temp1  = binding.resultTextView.text.toString().toDoubleOrNull()
+                lastNumber = temp1!!
+                val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
+                binding.operationTextView.text = temp2
+            }
+
         }
         clearInput()
         currentOperation = operation
@@ -113,20 +124,32 @@ class MainActivity : AppCompatActivity() {
 
     fun onClickNegative(v: View){
         val negSign = "-"
-        val oldNumber = binding.resultTextView.text.toString()
+        var oldNumber = binding.resultTextView.text.toString()
         val newTextNumber = negSign + oldNumber
         if(binding.resultTextView.text.toString().find {it=='-'} == '-')
             binding.resultTextView.text =oldNumber
 
-        else binding.resultTextView.text = newTextNumber
+        else if (binding.resultTextView.text.toString().matches(Regex("^-?\\d+(\\.\\d+)?\$|^-?\\d+\\.\$")) || binding.resultTextView.text == ""  || binding.resultTextView.text == "0."){
+                binding.resultTextView.text =newTextNumber
+                Log.i("KKKKK","this is : $newTextNumber")
+                prepareOperationText(newTextNumber)
+            }
+            else { binding.resultTextView.text = newTextNumber
+            binding.operationTextView.text = newTextNumber}
+        }
 
-    }
 
     fun prepareOperationText(newTextNumber:String){
         if(currentOperation!=null && newTextNumber !="0."){
-            binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
-            result = doCurrentOperation()
-            binding.finalResult.text = result.toString()
+            if (newTextNumber=="-"){
+                binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
+            }
+            else {
+                binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
+                result = doCurrentOperation()
+                binding.finalResult.text = result.toString()
+            }
+
         }
         else {
             val temp = binding.operationTextView.text.toString()
@@ -139,7 +162,7 @@ class MainActivity : AppCompatActivity() {
         val oldNumber = binding.resultTextView.text.toString()
         if (binding.resultTextView.text.toString().find { it == '.' } == '.')
             binding.resultTextView.text = oldNumber
-        else if (binding.resultTextView.text.toString() =="") {
+        else if (binding.resultTextView.text.toString() =="" || binding.resultTextView.text.toString() =="-") {
                 prepareOperationText("0.")
             binding.resultTextView.text = "0."
             println(" this is ${binding.resultTextView.text}")
