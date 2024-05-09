@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             currentOperation?.let {
                 if (lastNumber !=0.0 && binding.resultTextView .text.toString().toDouble() != 0.0){
                     result = doCurrentOperation()
-                    binding.resultTextView.text = result.toString()
+                    binding.finalResult.text = result.toString()
                 }
 
                 lastNumber = 0.0
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onClickNumber(v:View){
-        if (binding.resultTextView.text.toString().matches(Regex("^-?\\d+(\\.\\d+)?\$")) || binding.resultTextView.text == "" ||  binding.resultTextView.text == "-" || binding.resultTextView.text == "0."){
+        if (binding.resultTextView.text.toString().matches(Regex("^-?\\d+(\\.\\d+)?\$|^-?\\d+\\.\$")) || binding.resultTextView.text == "" ||  binding.resultTextView.text == "-" || binding.resultTextView.text == "0."){
                 val newDigit = (v as Button).text.toString()
                 val oldNumber = binding.resultTextView.text.toString()
                 val newTextNumber = oldNumber + newDigit
@@ -96,10 +96,11 @@ class MainActivity : AppCompatActivity() {
 
     fun clearInput(){
         binding.resultTextView.text =""
+        binding.finalResult.text = ""
+        currentOperation = null
     }
     fun prepareOperation(operation: Operation){
         if(binding.resultTextView.text != ""){
-
             val temp1  = binding.resultTextView.text.toString().toDoubleOrNull()
             lastNumber = temp1!!
             val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
@@ -126,8 +127,7 @@ class MainActivity : AppCompatActivity() {
         if(currentOperation!=null && newTextNumber !="0."){
             binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
             result = doCurrentOperation()
-            binding.resultTextView.text = result.toString()
-            currentOperation = null
+            binding.finalResult.text = result.toString()
         }
         else {
             val temp = binding.operationTextView.text.toString()
@@ -140,9 +140,10 @@ class MainActivity : AppCompatActivity() {
         val oldNumber = binding.resultTextView.text.toString()
         if (binding.resultTextView.text.toString().find { it == '.' } == '.')
             binding.resultTextView.text = oldNumber
-        else if (binding.resultTextView.text.toString() == "") {
+        else if (binding.resultTextView.text.toString() =="") {
                 prepareOperationText("0.")
             binding.resultTextView.text = "0."
+            println(" this is ${binding.resultTextView.text}")
 
         }else {
             val negDot = "."
