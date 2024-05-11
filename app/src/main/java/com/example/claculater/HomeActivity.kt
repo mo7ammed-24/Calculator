@@ -27,6 +27,7 @@ class HomeActivity : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         tabs.setupWithViewPager(viewPager)
         val fab: FloatingActionButton = binding.fab
+        tabs.setTabTextColors(getColor(R.color.white), getColor(R.color.brand))
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
