@@ -1,4 +1,4 @@
-package com.example.claculater
+package com.example.claculater.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,32 +6,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.isDigitsOnly
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.claculater.base.BaseActivity
+import com.example.claculater.util.Operation
 import com.example.claculater.databinding.ActivityMainBinding
-import java.util.Timer
-import java.util.TimerTask
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: BaseActivity<ActivityMainBinding>() {
 
     private var lastNumber: Double = 0.0
     private var result :Double = 0.0
-    private var currentOperation:Operation? = null
-    private val operationMap = mapOf(Operation.PLUS to "+",Operation.MINUS to "-", Operation.MULTIPLICATION to "×", Operation.DIVISION to "÷", Operation.MODULES to "%")
+    private var currentOperation: Operation? = null
+    private val operationMap = mapOf(
+        Operation.PLUS to "+",
+        Operation.MINUS to "-", Operation.MULTIPLICATION to "×", Operation.DIVISION to "÷", Operation.MODULES to "%")
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = ActivityMainBinding::inflate
 
-    private lateinit var binding : ActivityMainBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        addCallBacks()
+
+    override fun initialize() {
+        // this is initialize function
     }
 
-    fun addCallBacks(){
+    override fun callBacks() {
 
         binding.plusButton .setOnClickListener {
             prepareOperation(Operation.PLUS)

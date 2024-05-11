@@ -1,4 +1,4 @@
-package com.example.claculater
+package com.example.claculater.util
 
 enum class Operation {
         PLUS,

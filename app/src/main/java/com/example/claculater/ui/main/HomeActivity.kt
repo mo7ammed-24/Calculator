@@ -1,25 +1,22 @@
-package com.example.claculater
+package com.example.claculater.ui.main
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import com.example.claculater.ui.main.SectionsPagerAdapter
+import com.example.claculater.R
+import com.example.claculater.base.BaseActivity
 import com.example.claculater.databinding.ActivityHomeBinding
 
-class HomeActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityHomeBinding
+class HomeActivity : BaseActivity<ActivityHomeBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
+        get() = ActivityHomeBinding::inflate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = binding.viewPager
@@ -34,5 +31,13 @@ class HomeActivity : AppCompatActivity() {
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
         }
+    }
+
+    override fun initialize() {
+        //not written yet
+    }
+
+    override fun callBacks() {
+        //not written yet
     }
 }
