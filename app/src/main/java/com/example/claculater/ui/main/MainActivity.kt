@@ -136,7 +136,13 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
     fun prepareOperationText(newTextNumber:String){
         if(currentOperation!=null && newTextNumber !="0."){
             if (newTextNumber=="-"){
-                binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
+               binding.operationTextView.text = binding.operationTextView.text.toString() + "($newTextNumber"
+            }
+            else if(binding.resultTextView.text.toString()!="" && newTextNumber.get(0) == '-'){
+                binding.operationTextView.text=binding.operationTextView.text.slice(0..binding.operationTextView.text.toString().indexOfLast{it=='+' || it=='-'|| it=='÷' ||it == '×'||it=='%'})
+                binding.operationTextView.text=binding.operationTextView.text.toString()+"($newTextNumber"
+                result = doCurrentOperation()
+                binding.finalResult.text = result.toString()
             }
             else {
                 binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
