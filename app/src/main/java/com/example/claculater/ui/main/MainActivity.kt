@@ -51,7 +51,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             currentOperation?.let {
                 if (lastNumber !=0.0 && binding.resultTextView .text.toString().toDouble() != 0.0){
                     result = doCurrentOperation()
-                    binding.finalResult.text = result.toString()
+                    binding.finalResult.text = result.toString().toIntOrDouble()
                 }
 
                 lastNumber = 0.0
@@ -100,13 +100,13 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             if(binding.finalResult.text!=""){
                 val temp1  = binding.finalResult.text.toString().toDoubleOrNull()
                 lastNumber = temp1!!
-                val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
+                val temp2 = lastNumber.toString()+ operationMap.get(operation).toString()
                 binding.operationTextView.text = temp2
             }
             else{
                 val temp1  = binding.resultTextView.text.toString().toDoubleOrNull()
                 lastNumber = temp1!!
-                val temp2 = lastNumber.toString() + operationMap.get(operation).toString()
+                val temp2 = lastNumber.toString().toIntOrDouble() + operationMap.get(operation).toString()
                 binding.operationTextView.text = temp2
             }
 
@@ -142,12 +142,12 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
                 binding.operationTextView.text=binding.operationTextView.text.slice(0..binding.operationTextView.text.toString().indexOfLast{it=='+' || it=='-'|| it=='÷' ||it == '×'||it=='%'})
                 binding.operationTextView.text=binding.operationTextView.text.toString()+"($newTextNumber"
                 result = doCurrentOperation()
-                binding.finalResult.text = result.toString()
+                binding.finalResult.text = result.toString().toIntOrDouble()
             }
             else {
                 binding.operationTextView.text = binding.operationTextView.text.toString() + newTextNumber
                 result = doCurrentOperation()
-                binding.finalResult.text = result.toString()
+                binding.finalResult.text = result.toString().toIntOrDouble()
             }
 
         }
@@ -174,5 +174,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             binding.resultTextView.text = newTextNumber
         }
     }
+
+fun String.toIntOrDouble()=if(this.contains(".") && this.substringAfter(".").toInt() == 0) this.substringBefore(".").toInt().toString()  else this.toDouble().toString()
 
 }
