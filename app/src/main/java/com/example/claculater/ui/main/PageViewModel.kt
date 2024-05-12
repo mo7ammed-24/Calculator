@@ -10,7 +10,7 @@ class PageViewModel : ViewModel() {
 
     private val _index = MutableLiveData<Int>()
     val text: LiveData<String> = _index.map {
-        "Hello world from section: $it"
+        if(it==1) "Bellow They Locked Apps" else "Bellow They Unlocked Apps"
     }
 
     fun setIndex(index: Int) {
