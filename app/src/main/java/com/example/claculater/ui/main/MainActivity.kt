@@ -1,12 +1,10 @@
 package com.example.claculater.ui.main
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import com.example.claculater.base.BaseActivity
 import com.example.claculater.util.Operation
 import com.example.claculater.databinding.ActivityMainBinding
@@ -118,7 +116,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 
     fun onClickNegative(v: View){
         val negSign = "-"
-        var oldNumber = binding.resultTextView.text.toString()
+        val oldNumber = binding.resultTextView.text.toString()
         val newTextNumber = negSign + oldNumber
         if(binding.resultTextView.text.toString().find {it=='-'} == '-')
             binding.resultTextView.text =oldNumber
