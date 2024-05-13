@@ -1,11 +1,14 @@
 package com.example.claculater.ui.main
 
+import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import com.example.claculater.base.BaseActivity
+import com.example.claculater.data.DataManger
 import com.example.claculater.util.Operation
 import com.example.claculater.databinding.ActivityMainBinding
 
@@ -18,8 +21,17 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         Operation.PLUS to "+",
         Operation.MINUS to "-", Operation.MULTIPLICATION to "×", Operation.DIVISION to "÷", Operation.MODULES to "%")
     override val bindingInflater: (LayoutInflater) -> ActivityMainBinding = ActivityMainBinding::inflate
+    var password =0
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPrefs = this.getSharedPreferences("Password_Sharing", MODE_PRIVATE)
+        password = sharedPrefs.getInt("PASSWORD", 0)
+        if (password==0){
+            intent = Intent(this, PasswordActivity::class.java)
+            startActivity(intent)
+        }
+        super.onCreate(savedInstanceState)
+    }
     override fun initialize() {
         // this is initialize function
     }
@@ -42,7 +54,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             prepareOperation(Operation.MODULES)
         }
         binding.resultButton.setOnClickListener {
-            if(binding.resultTextView.text =="2244"){
+            if(binding.resultTextView.text.toString().toInt() == password){
                 intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
             }

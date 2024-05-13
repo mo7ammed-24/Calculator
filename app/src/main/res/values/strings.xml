@@ -20,4 +20,5 @@
     <string name="telegram">Telegram</string>
     <string name="create_your_password">Create Your Password</string>
     <string name="re_write_your_password">Re-Write Your Password</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.claculater.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -31,6 +32,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        finish()
+        findViewById<TextView>(R.id.resultTextView).text = ""
     }
 
     override fun initialize() {
