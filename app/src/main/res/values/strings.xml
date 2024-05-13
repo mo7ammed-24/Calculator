@@ -17,4 +17,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="tab_text_1">Locked Apps</string>
     <string name="tab_text_2">Unlocked Apps</string>
+    <string name="telegram">Telegram</string>
+    <string name="create_your_password">Create Your Password</string>
+    <string name="re_write_your_password">Re-Write Your Password</string>
 </resources>
