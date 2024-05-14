@@ -14,7 +14,7 @@ import com.example.claculater.databinding.ActivityMainBinding
 
 class MainActivity: BaseActivity<ActivityMainBinding>() {
 
-    private var lastNumber: Double = 0.0
+    private var lastNumber: Double? = null
     private var result :Double = 0.0
     private var currentOperation: Operation? = null
     private val operationMap = mapOf(
@@ -80,11 +80,11 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         Log.i("KKKKK","this is second : $secondNumber")
 
         return  when(currentOperation){
-            Operation.PLUS -> lastNumber + secondNumber!!
-            Operation.MINUS -> lastNumber - secondNumber!!
-            Operation.MULTIPLICATION -> lastNumber * secondNumber!!
-            Operation.DIVISION -> lastNumber / secondNumber!!
-            Operation.MODULES -> lastNumber % secondNumber!!
+            Operation.PLUS -> lastNumber!! + secondNumber!!
+            Operation.MINUS -> lastNumber!! - secondNumber!!
+            Operation.MULTIPLICATION -> lastNumber!! * secondNumber!!
+            Operation.DIVISION -> lastNumber!! / secondNumber!!
+            Operation.MODULES -> lastNumber!! % secondNumber!!
             null -> 0.0
         }
     }
@@ -122,7 +122,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 
         }
         clearInput()
-        currentOperation = operation
+        if (lastNumber!=null)
+            currentOperation = operation
 
     }
 
