@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.claculater.R
 import com.example.claculater.base.BaseActivity
+import com.example.claculater.data.App
 import com.example.claculater.databinding.ActivityHomeBinding
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
@@ -37,13 +38,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onPause() {
         super.onPause()
-        Log.i("fff", "onPause2")
         finish()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i("www", "this on restart 2")
     }
 
     override fun initialize() {
@@ -51,6 +46,5 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun callBacks() {
-        //not written yet
     }
 }

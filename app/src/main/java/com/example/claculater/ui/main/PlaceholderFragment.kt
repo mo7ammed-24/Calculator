@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.claculater.R
+import com.example.claculater.data.App
 import com.example.claculater.databinding.FragmentHomeBinding
 
 /**
@@ -28,6 +29,7 @@ class PlaceholderFragment : Fragment() {
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
         }
+
     }
 
     override fun onCreateView(
@@ -45,6 +47,12 @@ class PlaceholderFragment : Fragment() {
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val app = App("Facebook", false, "Picture")
+        binding.appName.text = app.appName
+        binding.switchLock.isChecked=app.appLocked
+    }
     companion object {
         /**
          * The fragment argument representing the section number for this
