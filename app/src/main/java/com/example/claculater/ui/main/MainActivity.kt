@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import com.example.claculater.R
 import com.example.claculater.base.BaseActivity
 import com.example.claculater.data.DataManger
 import com.example.claculater.util.Operation
@@ -32,6 +34,13 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         }
         super.onCreate(savedInstanceState)
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("www", "this on restart")
+    }
+
+
     override fun initialize() {
         // this is initialize function
     }
@@ -57,6 +66,8 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             if(binding.resultTextView.text.toString().toInt() == password){
                 intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
+                binding.operationTextView.text = ""
+                binding.resultTextView.text = ""
             }
             currentOperation?.let {
                 if (lastNumber !=0.0 && binding.resultTextView .text.toString().toDouble() != 0.0){
@@ -67,7 +78,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
                 lastNumber = 0.0
             }
         }
-
 
         binding.deleteButton.setOnClickListener {
             clearInput()

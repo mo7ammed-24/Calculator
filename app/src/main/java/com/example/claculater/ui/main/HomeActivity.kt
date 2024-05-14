@@ -1,6 +1,7 @@
 package com.example.claculater.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,8 +37,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onPause() {
         super.onPause()
+        Log.i("fff", "onPause2")
         finish()
-        findViewById<TextView>(R.id.resultTextView).text = ""
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("www", "this on restart 2")
     }
 
     override fun initialize() {
