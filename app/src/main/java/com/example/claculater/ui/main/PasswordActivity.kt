@@ -29,6 +29,7 @@ class PasswordActivity:BaseActivity<ActivityCreatePasswordBinding>() {
                 editor.apply()
                 intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             else if(binding.inputCreatePassword.text.toString()!="" && binding.inputRewritePassword.text.toString()!=""){
                 binding.textNotes.text = "Password Not Match"
