@@ -31,6 +31,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         if (password==0){
             intent = Intent(this, PasswordActivity::class.java)
             startActivity(intent)
+            finish()
         }
         super.onCreate(savedInstanceState)
     }
