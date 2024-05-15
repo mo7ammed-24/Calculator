@@ -49,7 +49,13 @@ class PlaceholderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val app = App("Facebook", false, "Picture")
+        val app = App("Facebook", true, "Picture")
+        val appList = listOf(App("Telegram", true, "pIC"),
+            App("Messenger", true, "pIC"),
+            App("WhatsApp", false, "pIC"),
+            App("Instagram", false, "pIC"),
+            App("LinkedIn", true, "pIC"),
+            )
         binding.appName.text = app.appName
         binding.switchLock.isChecked=app.appLocked
     }
