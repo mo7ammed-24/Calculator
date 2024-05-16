@@ -19,6 +19,16 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recycler_app"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/section_label"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      android:orientation="vertical"
+      tools:listitem="@layout/item_app"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

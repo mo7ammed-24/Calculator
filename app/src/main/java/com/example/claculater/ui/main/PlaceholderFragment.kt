@@ -56,8 +56,8 @@ class PlaceholderFragment : Fragment() {
             App("Instagram", false, "pIC"),
             App("LinkedIn", true, "pIC"),
             )
-        binding.appName.text = app.appName
-        binding.switchLock.isChecked=app.appLocked
+        val adapter = AppAdapter(appList)
+        binding.recyclerApp.adapter = adapter
     }
     companion object {
         /**
