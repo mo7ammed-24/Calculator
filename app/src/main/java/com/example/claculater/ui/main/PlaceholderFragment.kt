@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.claculater.R
 import com.example.claculater.data.App
+import com.example.claculater.data.DataManger
 import com.example.claculater.databinding.FragmentHomeBinding
 
 /**
@@ -20,6 +21,7 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
 
     private lateinit var pageViewModel: PageViewModel
     private var _binding: FragmentHomeBinding? = null
+    lateinit var adapter : AppAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,7 +32,8 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
         }
-
+        adapter = AppAdapter(DataManger.apps, this)
+        addItem()
     }
 
     override fun onCreateView(
@@ -50,18 +53,14 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val app = App("Facebook", true, "Picture")
-        val appList = listOf(App("Telegram", true, "pIC"),
-            App("Messenger", true, "pIC"),
-            App("WhatsApp", false, "pIC"),
-            App("Instagram", false, "pIC"),
-            App("LinkedIn", true, "pIC"),
-            App("LinkedIn", true, "pIC"),
-            App("LinkedIn", true, "pIC"),
-            App("LinkedIn", true, "pIC"),
-            )
-        val adapter = AppAdapter(appList, this)
+        DataManger.setAppsData()
         binding.recyclerApp.adapter = adapter
+    }
+
+    fun addItem(){
+        val app = App("Telegram", true, "Picture")
+        DataManger.addApp(app)
+        adapter.setData(DataManger.apps)
     }
     companion object {
         /**
