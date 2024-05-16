@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +16,7 @@ import com.example.claculater.databinding.FragmentHomeBinding
 /**
  * A placeholder fragment containing a simple view.
  */
-class PlaceholderFragment : Fragment() {
+class PlaceholderFragment : Fragment(), AppInteractionListener{
 
     private lateinit var pageViewModel: PageViewModel
     private var _binding: FragmentHomeBinding? = null
@@ -55,8 +56,11 @@ class PlaceholderFragment : Fragment() {
             App("WhatsApp", false, "pIC"),
             App("Instagram", false, "pIC"),
             App("LinkedIn", true, "pIC"),
+            App("LinkedIn", true, "pIC"),
+            App("LinkedIn", true, "pIC"),
+            App("LinkedIn", true, "pIC"),
             )
-        val adapter = AppAdapter(appList)
+        val adapter = AppAdapter(appList, this)
         binding.recyclerApp.adapter = adapter
     }
     companion object {
@@ -83,5 +87,13 @@ class PlaceholderFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClickItem(app: App) {
+        Toast.makeText(this.context, app.appName, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSwitchLock() {
+        TODO()
     }
 }
