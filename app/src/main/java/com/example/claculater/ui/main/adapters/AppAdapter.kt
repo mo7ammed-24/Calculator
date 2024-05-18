@@ -30,6 +30,6 @@ class AppAdapter(private var list:List<App>, private val listener: AppInteractio
         holder.binding.apply {
             appName.text = currentApp.appName
         root.setOnClickListener { listener.onClickItem(currentApp)}}
-        Glide.with(holder.binding.root).load(currentApp.appIcon).into(holder.binding.appImage)
+        Glide.with(holder.binding.root).load(currentApp.appIcon).centerCrop().into(holder.binding.appImage)
     }
 }
