@@ -61,7 +61,7 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
     }
 
     fun addItem() {
-        val app = App("Telegram", true, "Picture")
+        val app = App("Telegram", true, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/800px-Telegram_2019_Logo.svg.png")
         DataManger.addApp(app)
         adapter.setData(DataManger.apps)
     }

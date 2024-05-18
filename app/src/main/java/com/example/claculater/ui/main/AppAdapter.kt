@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.annotation.GlideType
 import com.example.claculater.R
 import com.example.claculater.data.App
 import com.example.claculater.ui.main.viewHolders.AppViewHolder
@@ -24,7 +27,9 @@ class AppAdapter(private var list:List<App>, private val listener:AppInteraction
 
     override fun onBindViewHolder(holder: AppViewHolder, position: Int) {
         val currentApp = list[position]
-        holder.binding.apply {  appName.text = currentApp.appName
+        holder.binding.apply {
+            appName.text = currentApp.appName
         root.setOnClickListener { listener.onClickItem(currentApp)}}
+        Glide.with(holder.binding.root).load(currentApp.appIcon).into(holder.binding.appImage)
     }
 }
