@@ -2,6 +2,7 @@ package com.example.claculater.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.claculater.R
 import com.example.claculater.data.App
@@ -16,8 +17,9 @@ class AppAdapter(private var list:List<App>, private val listener:AppInteraction
     override fun getItemCount()=list.size
 
     fun setData(newList:List<App>){
+        val diffResult = DiffUtil.calculateDiff(AppDiffUtil(list, newList))
         list = newList
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onBindViewHolder(holder: AppViewHolder, position: Int) {

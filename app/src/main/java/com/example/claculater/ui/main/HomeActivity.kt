@@ -13,20 +13,22 @@ import com.example.claculater.R
 import com.example.claculater.base.BaseActivity
 import com.example.claculater.data.App
 import com.example.claculater.databinding.ActivityHomeBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
         get() = ActivityHomeBinding::inflate
+    val tabTitles = listOf("Locked Apps", "Unlocked Apps")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = binding.viewPager
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = binding.tabs
-        tabs.setupWithViewPager(viewPager)
-        tabs.setTabTextColors(getColor(R.color.white), getColor(R.color.brand))
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, listOf(PlaceholderFragment(), PlaceholderFragment()))
+        binding.viewPager.adapter = sectionsPagerAdapter
+        TabLayoutMediator(binding.tabs, binding.viewPager){ tab, position->
+            tab.text = tabTitles[position]
+        }.attach()
+        binding.tabs.setTabTextColors(getColor(R.color.white), getColor(R.color.brand))
 
     }
 

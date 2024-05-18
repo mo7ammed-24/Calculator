@@ -2,8 +2,11 @@ package com.example.claculater.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentContainer
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.claculater.R
 
 private val TAB_TITLES = arrayOf(
@@ -15,26 +18,9 @@ private val TAB_TITLES = arrayOf(
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentPagerAdapter(fm) {
+class SectionsPagerAdapter(container: FragmentActivity, private val fragmentList: List<Fragment>):FragmentStateAdapter(container){
+    override fun getItemCount() = fragmentList.size
 
-    override fun getItem(position: Int): Fragment {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment.
-        return PlaceholderFragment.newInstance(position + 1)
-    }
+    override fun createFragment(position: Int) = fragmentList[position]
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(TAB_TITLES[position])
-    }
-
-    override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
-
-    }
-
-    override fun getCount(): Int {
-        // Show 2 total pages.
-        return 2
-    }
 }
