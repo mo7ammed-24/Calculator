@@ -1,17 +1,17 @@
-package com.example.claculater.ui.main
+package com.example.claculater.ui.main.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.annotation.GlideType
 import com.example.claculater.R
 import com.example.claculater.data.App
+import com.example.claculater.util.AppDiffUtil
+import com.example.claculater.ui.main.listener.AppInteractionListener
 import com.example.claculater.ui.main.viewHolders.AppViewHolder
 
-class AppAdapter(private var list:List<App>, private val listener:AppInteractionListener):RecyclerView.Adapter<AppViewHolder>() {
+class AppAdapter(private var list:List<App>, private val listener: AppInteractionListener):RecyclerView.Adapter<AppViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false)
         return AppViewHolder(view)

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.main.HomeActivity">
+    tools:context=".ui.main.activities.HomeActivity">
 
     <View
         android:id="@+id/view"

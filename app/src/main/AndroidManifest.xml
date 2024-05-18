@@ -15,18 +15,18 @@
         android:theme="@style/Theme.Claculater"
         tools:targetApi="31">
         <activity
-            android:name=".ui.main.PasswordActivity"
+            android:name=".ui.main.activities.PasswordActivity"
             android:exported="false"
             android:label="PasswordActivity"
             android:theme="@style/Theme.Claculater.NoActionBar"/>
 
         <activity
-            android:name=".ui.main.HomeActivity"
+            android:name=".ui.main.activities.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.Claculater.NoActionBar" />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.main.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

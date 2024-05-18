@@ -1,4 +1,4 @@
-package com.example.claculater.ui.main
+package com.example.claculater.ui.main.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

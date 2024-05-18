@@ -1,16 +1,12 @@
-package com.example.claculater.ui.main
+package com.example.claculater.ui.main.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
-import com.example.claculater.R
 import com.example.claculater.base.BaseActivity
-import com.example.claculater.data.DataManger
 import com.example.claculater.util.Operation
 import com.example.claculater.databinding.ActivityMainBinding
 

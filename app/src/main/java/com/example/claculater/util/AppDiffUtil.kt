@@ -1,4 +1,4 @@
-package com.example.claculater.ui.main
+package com.example.claculater.util
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.claculater.data.App
