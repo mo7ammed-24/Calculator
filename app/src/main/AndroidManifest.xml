@@ -12,19 +12,24 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Claculater"
+        android:theme="@style/Theme.Calculator"
         tools:targetApi="31">
+
+        <activity android:name=".ui.main.activities.LockActivity"
+            android:exported="false"
+            android:label="LockActivity"
+            android:theme="@style/Theme.Calculator.NoActionBar"/>
         <activity
             android:name=".ui.main.activities.PasswordActivity"
             android:exported="false"
             android:label="PasswordActivity"
-            android:theme="@style/Theme.Claculater.NoActionBar"/>
+            android:theme="@style/Theme.Calculator.NoActionBar"/>
 
         <activity
             android:name=".ui.main.activities.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"
-            android:theme="@style/Theme.Claculater.NoActionBar" />
+            android:theme="@style/Theme.Calculator.NoActionBar" />
         <activity
             android:name=".ui.main.activities.MainActivity"
             android:exported="true">
