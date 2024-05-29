@@ -20,7 +20,7 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
         //
     }
 
-    fun checkingLockPattern() {
+    private fun checkingLockPattern() {
         binding.patternLock.setOnPatternListener(object :PatternLockView.OnPatternListener{
             override fun onComplete(ids: ArrayList<Int>): Boolean {
                 val list = ArrayList<Int>()

@@ -1,6 +1,7 @@
 package com.example.claculater.ui.main.activities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Button
 import com.example.claculater.base.BaseActivity
 import com.example.claculater.util.Operation
 import com.example.claculater.databinding.ActivityMainBinding
+import com.example.claculater.ui.main.service.AppLockService
 
 class MainActivity: BaseActivity<ActivityMainBinding>() {
 
@@ -22,6 +24,12 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
     var password =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val intent2 = Intent(this, AppLockService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            startForegroundService(intent2)
+        else
+            startService(intent2)
+
         val sharedPrefs = this.getSharedPreferences("Password_Sharing", MODE_PRIVATE)
         password = sharedPrefs.getInt("PASSWORD", 0)
         if (password==0){
