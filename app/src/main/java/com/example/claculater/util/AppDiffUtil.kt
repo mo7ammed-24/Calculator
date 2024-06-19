@@ -2,8 +2,9 @@ package com.example.claculater.util
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.claculater.data.App
+import com.example.claculater.data.AppInfo
 
-class AppDiffUtil(val oldList:List<App>, val newList:List<App>):DiffUtil.Callback(){
+class AppDiffUtil(val oldList:List<AppInfo>, val newList:List<AppInfo>):DiffUtil.Callback(){
     override fun getOldListSize()= oldList.size
 
     override fun getNewListSize()=newList.size

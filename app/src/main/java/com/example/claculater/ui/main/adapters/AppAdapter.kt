@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.claculater.R
 import com.example.claculater.data.App
+import com.example.claculater.data.AppInfo
 import com.example.claculater.util.AppDiffUtil
 import com.example.claculater.ui.main.listener.AppInteractionListener
 import com.example.claculater.ui.main.viewHolders.AppViewHolder
 
-class AppAdapter(private var list:List<App>, private val listener: AppInteractionListener):RecyclerView.Adapter<AppViewHolder>() {
+class AppAdapter(private var list:List<AppInfo>, private val listener: AppInteractionListener):RecyclerView.Adapter<AppViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_app, parent, false)
         return AppViewHolder(view)
@@ -19,7 +20,7 @@ class AppAdapter(private var list:List<App>, private val listener: AppInteractio
 
     override fun getItemCount()=list.size
 
-    fun setData(newList:List<App>){
+    fun setData(newList:List<AppInfo>){
         val diffResult = DiffUtil.calculateDiff(AppDiffUtil(list, newList))
         list = newList
         diffResult.dispatchUpdatesTo(this)
@@ -30,6 +31,6 @@ class AppAdapter(private var list:List<App>, private val listener: AppInteractio
         holder.binding.apply {
             appName.text = currentApp.appName
         root.setOnClickListener { listener.onClickItem(currentApp)}}
-        Glide.with(holder.binding.root).load(currentApp.appIcon).centerCrop().into(holder.binding.appImage)
+        Glide.with(holder.binding.root).load(currentApp.icon).centerCrop().into(holder.binding.appImage)
     }
 }

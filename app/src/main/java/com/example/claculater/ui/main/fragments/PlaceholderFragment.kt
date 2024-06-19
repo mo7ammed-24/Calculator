@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.claculater.R
 import com.example.claculater.data.App
+import com.example.claculater.data.AppInfo
 import com.example.claculater.data.DataManger
 import com.example.claculater.databinding.FragmentHomeBinding
 import com.example.claculater.ui.main.adapters.AppAdapter
@@ -34,6 +37,11 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        DataManger.setAppsData(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,13 +63,11 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
         super.onViewCreated(view, savedInstanceState)
         adapter = AppAdapter(DataManger.apps, this)
         binding.recyclerApp.adapter = adapter
-        binding.buttonAdd.setOnClickListener {
-            addItem()
-        }
+
     }
 
     fun addItem() {
-        val app = App("Telegram", true, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/800px-Telegram_2019_Logo.svg.png")
+        val app = AppInfo("Telegram", "FF", R.drawable.calculator.toDrawable())
         DataManger.addApp(app)
         adapter.setData(DataManger.apps)
     }
@@ -92,7 +98,7 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
             _binding = null
         }
 
-        override fun onClickItem(app: App) {
+        override fun onClickItem(app: AppInfo) {
             Toast.makeText(this.context, app.appName, Toast.LENGTH_SHORT).show()
         }
 

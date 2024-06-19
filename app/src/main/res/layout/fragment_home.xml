@@ -7,17 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.fragments.PlaceholderFragment">
 
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textColor="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recycler_app"
@@ -25,7 +15,7 @@
       android:layout_height="wrap_content"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/button_add"
+      app:layout_constraintTop_toTopOf="parent"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       android:orientation="vertical"
       tools:listitem="@layout/item_app"/>

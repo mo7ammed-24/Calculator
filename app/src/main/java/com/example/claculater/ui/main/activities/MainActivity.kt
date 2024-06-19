@@ -1,19 +1,26 @@
 package com.example.claculater.ui.main.activities
 
+import android.app.AppOpsManager
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import com.example.claculater.base.BaseActivity
+import com.example.claculater.data.AppInfo
 import com.example.claculater.util.Operation
 import com.example.claculater.databinding.ActivityMainBinding
+import com.example.claculater.ui.main.brodcastreceiver.MyBrodcastReciver
 import com.example.claculater.ui.main.service.AppLockService
 
 class MainActivity: BaseActivity<ActivityMainBinding>() {
-
     private var lastNumber: Double? = null
     private var result :Double = 0.0
     private var currentOperation: Operation? = null
@@ -24,6 +31,14 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
     var password =0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val myBrodcast = MyBrodcastReciver()
+        val filter = IntentFilter()
+        filter.addAction(Intent.ACTION_BOOT_COMPLETED)
+        registerReceiver(myBrodcast, filter)
+        if (!isAccessGranted()) {
+            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+            startActivity(intent)
+        }
         val intent2 = Intent(this, AppLockService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForegroundService(intent2)
@@ -199,8 +214,44 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             prepareOperationText(negDot)
             binding.resultTextView.text = newTextNumber
         }
+
+
+
     }
 
 fun String.toIntOrDouble()=if(this.contains(".") && this.substringAfter(".").toInt() == 0) this.substringBefore(".").toInt().toString()  else this.toDouble().toString()
 
+    fun isAccessGranted(): Boolean {
+        return try {
+            val packageManager = packageManager
+            val applicationInfo: ApplicationInfo = packageManager.getApplicationInfo(packageName, 0)
+            val appOpsManager = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val mode = if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT) {
+                appOpsManager.checkOpNoThrow(
+                    AppOpsManager.OPSTR_GET_USAGE_STATS,
+                    applicationInfo.uid,
+                    applicationInfo.packageName
+                )
+            } else {
+                0
+            }
+            mode == AppOpsManager.MODE_ALLOWED
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+    fun getAllApps(context: Context): List<AppInfo> {
+        val packageManager = context.packageManager
+        val installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+        val appList = mutableListOf<AppInfo>()
+
+        for (appInfo in installedApps) {
+            val appName = appInfo.loadLabel(packageManager).toString()
+            val packageName = appInfo.packageName
+            val icon = appInfo.loadIcon(packageManager)
+            appList.add(AppInfo(appName, packageName, icon))
+        }
+
+        return appList
+    }
 }
