@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.util.Log
 import com.example.claculater.data.DataManger.appList
 
+
+
 object DataManger {
     var userPassword:Int? = null
     private var appList = mutableListOf<AppInfo>()

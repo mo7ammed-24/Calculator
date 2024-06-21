@@ -34,6 +34,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         val myBrodcast = MyBrodcastReciver()
         val filter = IntentFilter()
         filter.addAction(Intent.ACTION_BOOT_COMPLETED)
+        filter.addAction(Intent.ACTION_SCREEN_ON)
         registerReceiver(myBrodcast, filter)
         if (!isAccessGranted()) {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)

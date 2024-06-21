@@ -1,23 +1,30 @@
 package com.example.claculater.ui.main.service
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.app.usage.UsageEvents
+import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.rotationMatrix
 import com.example.claculater.R
 import com.example.claculater.ui.main.activities.LockActivity
 
 class AppLockService:Service() {
+    private var runningAppPackageName :String?= ""
+
     val SEDRVICE_ID = 1
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -30,8 +37,25 @@ class AppLockService:Service() {
         super.onCreate()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         showMessage()
+        Handler(Looper.getMainLooper()).postDelayed({
+        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        val endTime = System.currentTimeMillis()
+        val beginTime = endTime - 10000 // Look back for 1 hour
+        val stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, beginTime, endTime)
+        // Find the foreground app based on last active time
+        val foregroundApp = stats.maxByOrNull { it.lastTimeUsed}?.packageName
+        if (foregroundApp=="org.telegram.messenger"){
+            val intent = Intent(this,LockActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+        },10000)
+
+
+//        Log.i("fxxxfff", foregroundApp.toString())
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -56,5 +80,10 @@ class AppLockService:Service() {
             setOngoing(true)
         }.build()
         startForeground(SEDRVICE_ID, notification)
-    }
+
+
+        }
+
+
+
 }
