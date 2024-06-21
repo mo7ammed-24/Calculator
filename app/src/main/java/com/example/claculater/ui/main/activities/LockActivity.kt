@@ -9,12 +9,11 @@ import kotlin.collections.ArrayList
 
 class LockActivity:BaseActivity<ActivityLockBinding>(){
     override val bindingInflater: (LayoutInflater) -> ActivityLockBinding = ActivityLockBinding::inflate
+    var isLocked= false
 
     override fun initialize() {
         checkingLockPattern()
     }
-
-
 
     override fun callBacks() {
         //
@@ -23,16 +22,14 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
     private fun checkingLockPattern() {
         binding.patternLock.setOnPatternListener(object :PatternLockView.OnPatternListener{
             override fun onComplete(ids: ArrayList<Int>): Boolean {
-                val list = ArrayList<Int>()
-                list.add(1)
-                list.add(2)
-                list.add(3)
                 var str = ""
                 ids.forEach {
                     str+=it.toString()
                 }
+                isLocked = str == "012"
                 return str == "012"
             }
         })
     }
+
 }

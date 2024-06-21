@@ -40,21 +40,31 @@ class AppLockService:Service() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         showMessage()
-        Handler(Looper.getMainLooper()).postDelayed({
-        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-        val endTime = System.currentTimeMillis()
-        val beginTime = endTime - 10000 // Look back for 1 hour
-        val stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, beginTime, endTime)
-        // Find the foreground app based on last active time
-        val foregroundApp = stats.maxByOrNull { it.lastTimeUsed}?.packageName
-        if (foregroundApp=="org.telegram.messenger"){
-            val intent = Intent(this,LockActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+        val handler = Handler(Looper.getMainLooper())
+        val runnable = object :Runnable {
+            override fun run() {
+//
+                val usageStatsManager =
+                    getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+                val endTime = System.currentTimeMillis()
+                val beginTime = endTime - 10000 // Look back for 1 hour
+                val stats = usageStatsManager.queryUsageStats(
+                    UsageStatsManager.INTERVAL_DAILY,
+                    beginTime,
+                    endTime
+                )
+                // Find the foreground app based on last active time
+                val foregroundApp = stats.maxByOrNull { it.lastTimeUsed }?.packageName
+                if (foregroundApp == "org.telegram.messenger") {
+                    val intent = Intent(this@AppLockService, LockActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+                handler.postDelayed(this, 2000)
+            }
         }
-        },10000)
 
-
+        handler.post(runnable)
 //        Log.i("fxxxfff", foregroundApp.toString())
         return super.onStartCommand(intent, flags, startId)
     }
