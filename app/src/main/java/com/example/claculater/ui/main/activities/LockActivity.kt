@@ -1,7 +1,11 @@
 package com.example.claculater.ui.main.activities
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import com.example.claculater.base.BaseActivity
 import com.example.claculater.databinding.ActivityLockBinding
 import com.itsxtt.patternlock.PatternLockView
@@ -9,7 +13,7 @@ import kotlin.collections.ArrayList
 
 class LockActivity:BaseActivity<ActivityLockBinding>(){
     override val bindingInflater: (LayoutInflater) -> ActivityLockBinding = ActivityLockBinding::inflate
-    var isLocked= false
+    var isOpened= false
 
     override fun initialize() {
         checkingLockPattern()
@@ -26,10 +30,30 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
                 ids.forEach {
                     str+=it.toString()
                 }
-                isLocked = str == "012"
+                if (str == "012"){
+                    isOpened=true
+                    finish()
+                isOpened=false}
                 return str == "012"
             }
         })
+
+    }
+
+    var dispatcher = onBackPressedDispatcher.addCallback(onBackPressedCallback = object :OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            val intent = Intent(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_HOME)
+            }
+            startActivity(intent)
+            finish()
+        }
+
+    })
+
+    override fun onStop() {
+        super.onStop()
+        finish()
     }
 
 }
