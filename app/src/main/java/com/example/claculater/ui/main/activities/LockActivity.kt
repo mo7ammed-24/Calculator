@@ -1,6 +1,7 @@
 package com.example.claculater.ui.main.activities
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.window.OnBackInvokedDispatcher
@@ -15,6 +16,15 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
     override val bindingInflater: (LayoutInflater) -> ActivityLockBinding = ActivityLockBinding::inflate
     var isOpened= false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.i("hggg", "i am in the create lifecycle")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("hggg", "i am in the start lifecycle")
+    }
     override fun initialize() {
         checkingLockPattern()
     }
@@ -46,14 +56,16 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
                 addCategory(Intent.CATEGORY_HOME)
             }
             startActivity(intent)
-            finish()
+            finishAndRemoveTask()
         }
 
     })
 
-    override fun onStop() {
-        super.onStop()
-        finish()
+    override fun onPause() {
+        finishAndRemoveTask()
+        super.onPause()
     }
+
+
 
 }
