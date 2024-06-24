@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.rotationMatrix
 import com.example.claculater.R
+import com.example.claculater.data.DataManger
 import com.example.claculater.ui.main.activities.LockActivity
 
 class AppLockService:Service() {
@@ -40,14 +41,14 @@ class AppLockService:Service() {
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         showMessage()
+        var currentAppPackage =""
         val handler = Handler(Looper.getMainLooper())
         val runnable = object :Runnable {
             override fun run() {
-//
                 val usageStatsManager =
                     getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
                 val endTime = System.currentTimeMillis()
-                val beginTime = endTime - 10000 // Look back for 1 hour
+                val beginTime = endTime - 1000*60 // Look back for 1 hour
                 val stats = usageStatsManager.queryUsageStats(
                     UsageStatsManager.INTERVAL_DAILY,
                     beginTime,
@@ -55,11 +56,15 @@ class AppLockService:Service() {
                 )
                 // Find the foreground app based on last active time
                 val foregroundApp = stats.maxByOrNull { it.lastTimeUsed }?.packageName
-                if (foregroundApp == "org.telegram.messenger") {
+                Log.i("hhhfff", foregroundApp.toString())
+                if (foregroundApp in DataManger.lockedAppsPackageNames && currentAppPackage!=foregroundApp && currentAppPackage!=applicationContext.packageName) {
                     val intent = Intent(this@AppLockService, LockActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    currentAppPackage = foregroundApp.toString()
                     startActivity(intent)
                 }
+                else
+                    currentAppPackage= foregroundApp.toString()
                 handler.postDelayed(this, 2000)
             }
         }
@@ -90,7 +95,6 @@ class AppLockService:Service() {
             setOngoing(true)
         }.build()
         startForeground(SEDRVICE_ID, notification)
-
 
         }
 

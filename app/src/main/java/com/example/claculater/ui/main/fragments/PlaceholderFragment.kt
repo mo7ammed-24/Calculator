@@ -34,13 +34,10 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
         super.onCreate(savedInstanceState)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+            DataManger.setAppsData(requireContext())
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        DataManger.setAppsData(requireContext())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,7 +99,16 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
             Toast.makeText(this.context, app.appName, Toast.LENGTH_SHORT).show()
         }
 
-        override fun onSwitchLock() {
-            TODO()
+        override fun onSwitchLock(app: AppInfo, isLocked:Boolean) {
+            if (isLocked){
+                DataManger.lockeTheApp(app)
+                adapter.setData(DataManger.apps)
+            }
+            else{
+                DataManger.openTheApp(app)
+                adapter.setData(DataManger.apps)
+
+            }
+
         }
     }

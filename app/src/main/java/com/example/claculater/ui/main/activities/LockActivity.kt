@@ -42,8 +42,9 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
                 }
                 if (str == "012"){
                     isOpened=true
-                    finish()
-                isOpened=false}
+                    finishAndRemoveTask()
+                isOpened=false
+                }
                 return str == "012"
             }
         })
@@ -65,7 +66,5 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
         finishAndRemoveTask()
         super.onPause()
     }
-
-
 
 }

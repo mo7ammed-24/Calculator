@@ -5,6 +5,6 @@ import com.example.claculater.data.AppInfo
 
 interface AppInteractionListener {
      fun onClickItem(app:AppInfo)
-     fun onSwitchLock()
+     fun onSwitchLock(app: AppInfo, isLocked:Boolean)
 
 }

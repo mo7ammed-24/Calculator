@@ -9,12 +9,15 @@ import com.example.claculater.data.DataManger.appList
 
 
 object DataManger {
+    var notLockedApps = mutableListOf<AppInfo>()
+    var lockedApps = mutableListOf<AppInfo>()
     var userPassword:Int? = null
     private var appList = mutableListOf<AppInfo>()
     val apps  : List<AppInfo>
         get() = appList.toList()
-    
-    
+    val lockedAppsPackageNames : List<String>
+        get() = lockedApps.map{it.packageName}
+
     fun addApp(newApp:AppInfo){
         appList.add(newApp)
         Log.i("HH",appList.toString())
@@ -38,9 +41,24 @@ object DataManger {
             val icon = appInfo.loadIcon(packageManager)
             appList.add(AppInfo(appName, packageName, icon))
         }
-
         return appList
     }
 
+
+    fun lockeTheApp(app:AppInfo){
+        lockedApps.add(app)
+        appList.forEach {
+            if (it.packageName==app.packageName)
+                it.isLocked=true
+        }
+    }
+
+    fun openTheApp(app: AppInfo){
+        notLockedApps.add(app)
+        appList.forEach {
+            if (it.packageName==app.packageName)
+                it.isLocked=false
+        }
+    }
 
 }
