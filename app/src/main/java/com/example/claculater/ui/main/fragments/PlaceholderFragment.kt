@@ -111,4 +111,9 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
             }
 
         }
+
+    override fun onDestroy() {
+        this.activity?.let { DataManger.saveAppsInfo(it.baseContext) }
+        super.onDestroy()
+    }
     }
