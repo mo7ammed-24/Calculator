@@ -16,14 +16,25 @@ object DataManger {
     val SHARIN_APPS_INFO = "sharing_apps_info"
 
     val gson = Gson()
-    var notLockedApps = mutableListOf<AppInfo>()
-    var lockedApps = mutableListOf<AppInfo>()
+
+
+    private var _notLockedApps = mutableListOf<AppInfo>()
+    val notLockedApps : List<AppInfo>
+        get() = _notLockedApps.toList()
+
+    private var _lockedApps = mutableListOf<AppInfo>()
+    val lockedApps :List<AppInfo>
+        get() = _lockedApps.toList()
+
+
     var userPassword:Int? = null
     private var appList = mutableListOf<AppInfo>()
     val apps  : List<AppInfo>
         get() = appList.toList()
+
+
     val lockedAppsPackageNames : List<String>
-        get() = lockedApps.map{it.packageName}
+        get() = _lockedApps.map{it.packageName}
 
     fun addApp(newApp:AppInfo){
         appList.add(newApp)
@@ -32,11 +43,11 @@ object DataManger {
 
     fun setAppsData(context:Context){
         Log.i("JJJJ", context.toString())
-        appList = getAllApps(context).toMutableList()
-        notLockedApps = getNotLockedApps(NOT_LOCKED_APPS,context)
-        lockedApps = getLockedApps(LOCKED_APPS,context)
+        appList = getAllApps(context).toMutableList().sortedBy { it.appName }.toMutableList()
+        _notLockedApps = getNotLockedApps(NOT_LOCKED_APPS,context).sortedBy { it.appName }.toMutableList()
+        _lockedApps = getLockedApps(LOCKED_APPS,context).sortedBy { it.appName }.toMutableList()
+        Log.i("locked", _lockedApps.toString())
     }
-
 
     fun getAllApps(context: Context): List<AppInfo> {
         val packageManager = context.packageManager
@@ -47,52 +58,72 @@ object DataManger {
         for (appInfo in userApps) {
             val appName = appInfo.loadLabel(packageManager).toString()
             val packageName = appInfo.packageName
-            val icon = appInfo.loadIcon(packageManager)
-            appList.add(AppInfo(appName, packageName, icon))
+            val iconResId = appInfo.icon
+            appList.add(AppInfo(appName, packageName, iconResId))
         }
         return appList
     }
 
-    fun getNotLockedApps(key:String, context: Context): ArrayList<AppInfo> {
+    fun getNotLockedApps(key:String, context: Context): MutableList<AppInfo> {
         val preferences = context.getSharedPreferences(SHARIN_APPS_INFO, Context.MODE_PRIVATE)
         val json: String = preferences.getString(key, "").toString()
         val gson = Gson()
         val type: Type = object : TypeToken<ArrayList<AppInfo?>?>() {}.type
-        val switchGroup1: ArrayList<AppInfo> = gson.fromJson(json, type)
+        val switchGroup1: ArrayList<AppInfo>? = gson.fromJson(json, type)
+        switchGroup1?.toMutableList()
+
+        if (switchGroup1==null)
+            return appList
+
+        appList.forEach {
+            if (it !in switchGroup1 && it !in _notLockedApps && it.isLocked==false){
+                it.isLocked = true
+                if (it !in _lockedApps){
+                    it.isLocked=false
+                    switchGroup1.add(it)
+                }
+            }
+
+        }
+
         return switchGroup1
     }
 
-    fun getLockedApps(key:String, context: Context): ArrayList<AppInfo> {
+    fun getLockedApps(key:String, context: Context): MutableList<AppInfo> {
         val preferences = context.getSharedPreferences(SHARIN_APPS_INFO, Context.MODE_PRIVATE)
         val json: String = preferences.getString(key, "").toString()
         val gson = Gson()
         val type: Type = object : TypeToken<ArrayList<AppInfo>?>() {}.type
-        val switchGroup1: ArrayList<AppInfo> = gson.fromJson(json, type)
-        return switchGroup1
+        val switchGroup1: ArrayList<AppInfo>? = gson.fromJson(json, type)
+        if (switchGroup1==null)
+            return mutableListOf()
+        else
+            return switchGroup1
     }
 
 
     fun lockeTheApp(app:AppInfo){
-        lockedApps.add(app)
-        appList.forEach {
-            if (it.packageName==app.packageName)
-                it.isLocked=true
-        }
+        _notLockedApps.remove(app)
+        Log.i("ifghjdjf", _notLockedApps.remove(app).toString())
+        val ss = app
+        ss.isLocked = true
+        if (ss !in _lockedApps)
+            _lockedApps.add(ss)
     }
 
     fun openTheApp(app: AppInfo){
-        notLockedApps.add(app)
-        appList.forEach {
-            if (it.packageName==app.packageName)
-                it.isLocked=false
-        }
+        _lockedApps.remove(app)
+        val ss =app
+        ss.isLocked = false
+        if (ss !in _notLockedApps)
+            _notLockedApps.add(ss)
     }
 
     fun saveAppsInfo(context:Context){
         // Initialize SharedPreferences
         val preferences = context.getSharedPreferences(SHARIN_APPS_INFO, Context.MODE_PRIVATE)
-        val notLockedAppsJSON = gson.toJson(notLockedApps)
-        val lockedAppsJSON = gson.toJson(lockedApps)
+        val notLockedAppsJSON = gson.toJson(_notLockedApps)
+        val lockedAppsJSON = gson.toJson(_lockedApps)
         val editor = preferences.edit()
         //Add data to SharedPreferences
         editor.putString(NOT_LOCKED_APPS, notLockedAppsJSON)

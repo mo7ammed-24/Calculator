@@ -40,7 +40,7 @@ class AppLockService:Service() {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        showMessage()
+//        showMessage()
         var currentAppPackage =""
         val handler = Handler(Looper.getMainLooper())
         val runnable = object :Runnable {
@@ -74,14 +74,14 @@ class AppLockService:Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun showMessage() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            Toast.makeText(applicationContext, " Hi this is Service ", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this,LockActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        },5000)
-    }
+//    private fun showMessage() {
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            Toast.makeText(applicationContext, " Hi this is Service ", Toast.LENGTH_SHORT).show()
+//            val intent = Intent(this,LockActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
+//        },5000)
+//    }
     @RequiresApi(Build.VERSION_CODES.O)
     fun createNotificationChannel(){
         val channelID = "my_channel_1"

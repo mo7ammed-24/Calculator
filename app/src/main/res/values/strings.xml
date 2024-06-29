@@ -15,8 +15,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="tab_text_1">Locked Apps</string>
-    <string name="tab_text_2">Unlocked Apps</string>
+    <string name="tab_text_1">Unlocked Apps</string>
+    <string name="tab_text_2">locked Apps</string>
     <string name="telegram">telegram</string>
     <string name="create_your_password">Create Your Password</string>
     <string name="re_write_your_password">Re-Write Your Password</string>

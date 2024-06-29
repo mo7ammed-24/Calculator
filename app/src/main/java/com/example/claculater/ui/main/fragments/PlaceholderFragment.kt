@@ -1,6 +1,7 @@
 package com.example.claculater.ui.main.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,10 +33,9 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-            DataManger.setAppsData(requireContext())
-        }
+        DataManger.setAppsData(requireContext())
+        pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
+
     }
 
 
@@ -58,16 +58,22 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = AppAdapter(DataManger.apps, this)
+            pageViewModel.setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+
+            if((arguments?.getInt(ARG_SECTION_NUMBER) ?: 1) != 2) {
+                adapter = AppAdapter(DataManger. notLockedApps,  this)
+            } else
+                adapter = AppAdapter(DataManger. lockedApps,  this)
+
+
         binding.recyclerApp.adapter = adapter
-
     }
 
-    fun addItem() {
-        val app = AppInfo("Telegram", "FF", R.drawable.calculator.toDrawable())
-        DataManger.addApp(app)
-        adapter.setData(DataManger.apps)
-    }
+//    fun addItem() {
+//        val app = AppInfo("Telegram", "FF", R.drawable.calculator.toDrawable())
+//        DataManger.addApp(app)
+//        adapter.setData(DataManger.apps)
+//    }
 
     companion object {
         /**
@@ -90,6 +96,16 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
         }
     }
 
+    override fun onResume() {
+//        if((arguments?.getInt(ARG_SECTION_NUMBER) ?: 1) != 2)
+//            adapter.setData(DataManger.notLockedApps)
+//        else
+//            adapter.setData(DataManger.lockedApps)
+
+        this.activity?.let { DataManger.saveAppsInfo(it.baseContext) }
+        super.onResume()
+    }
+
         override fun onDestroyView() {
             super.onDestroyView()
             _binding = null
@@ -100,16 +116,20 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
         }
 
         override fun onSwitchLock(app: AppInfo, isLocked:Boolean) {
+            Log.i("gbnf", "$isLocked  "   + " + $app")
             if (isLocked){
                 DataManger.lockeTheApp(app)
-                adapter.setData(DataManger.apps)
+                adapter.setData(DataManger.notLockedApps)
             }
             else{
                 DataManger.openTheApp(app)
-                adapter.setData(DataManger.apps)
-
+                adapter.setData(DataManger.lockedApps)
             }
 
+//            if((arguments?.getInt(ARG_SECTION_NUMBER) ?: 1) != 2)
+//                adapter.setData(DataManger.notLockedApps)
+//            else
+//                adapter.setData(DataManger.lockedApps)
         }
 
     override fun onDestroy() {

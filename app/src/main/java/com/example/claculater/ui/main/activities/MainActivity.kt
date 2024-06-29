@@ -249,7 +249,7 @@ fun String.toIntOrDouble()=if(this.contains(".") && this.substringAfter(".").toI
         for (appInfo in installedApps) {
             val appName = appInfo.loadLabel(packageManager).toString()
             val packageName = appInfo.packageName
-            val icon = appInfo.loadIcon(packageManager)
+            val icon = appInfo.icon
             appList.add(AppInfo(appName, packageName, icon))
         }
 
