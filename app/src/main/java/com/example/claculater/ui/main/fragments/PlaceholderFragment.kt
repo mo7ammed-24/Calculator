@@ -1,6 +1,7 @@
 package com.example.claculater.ui.main.fragments
 
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.claculater.data.App
 import com.example.claculater.data.AppInfo
 import com.example.claculater.data.DataManger
 import com.example.claculater.databinding.FragmentHomeBinding
+import com.example.claculater.ui.main.activities.HomeActivity
 import com.example.claculater.ui.main.adapters.AppAdapter
 import com.example.claculater.ui.main.listener.AppInteractionListener
 import com.example.claculater.ui.main.viewModel.PageViewModel
@@ -21,7 +23,7 @@ import com.example.claculater.ui.main.viewModel.PageViewModel
 /**
  * A placeholder fragment containing a simple view.
  */
-class PlaceholderFragment : Fragment(), AppInteractionListener {
+class PlaceholderFragment : Fragment(), AppInteractionListener{
 
     private lateinit var pageViewModel: PageViewModel
     private var _binding: FragmentHomeBinding? = null
@@ -42,7 +44,7 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View?{
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root = binding.root
@@ -59,12 +61,11 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
             pageViewModel.setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-
+            Log.i("fgds", "${DataManger.notLockedApps[DataManger.notLockedApps.size-1]}")
             if((arguments?.getInt(ARG_SECTION_NUMBER) ?: 1) != 2) {
                 adapter = AppAdapter(DataManger. notLockedApps,  this)
             } else
                 adapter = AppAdapter(DataManger. lockedApps,  this)
-
 
         binding.recyclerApp.adapter = adapter
     }
@@ -131,6 +132,19 @@ class PlaceholderFragment : Fragment(), AppInteractionListener {
 //            else
 //                adapter.setData(DataManger.lockedApps)
         }
+
+     fun onTabChanged(position: Int){
+        Log.i("ddfs", position.toString())
+        if (position==0 && DataManger.notLockedApps.size>0){
+            adapter.setData(DataManger.notLockedApps)
+        }
+        else if (position==1 && DataManger.lockedApps.size>0){
+            val new = DataManger.lockedApps
+            adapter.setData(DataManger.lockedApps)
+        }
+
+
+    }
 
     override fun onDestroy() {
         this.activity?.let { DataManger.saveAppsInfo(it.baseContext) }

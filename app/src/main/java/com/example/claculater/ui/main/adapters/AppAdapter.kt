@@ -28,7 +28,7 @@ class AppAdapter(private var list:List<AppInfo>, private val listener: AppIntera
     override fun getItemCount()=list.size
 
     fun setData(newList:List<AppInfo>){
-        Log.i("Mohammed", "$newList")
+        Log.i("Mohammed", "${newList.last()}")
         val diffResult = DiffUtil.calculateDiff(AppDiffUtil(list, newList))
         list = newList
         diffResult.dispatchUpdatesTo(this)

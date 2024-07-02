@@ -28,6 +28,7 @@ class SectionsPagerAdapter(val context: Context, container: FragmentManager):
 
     override fun getCount() = 2
 
+
     override fun getItem(position: Int) =PlaceholderFragment.newInstance(position+1)
 
 }

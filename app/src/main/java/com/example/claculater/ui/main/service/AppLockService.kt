@@ -65,7 +65,7 @@ class AppLockService:Service() {
                 }
                 else
                     currentAppPackage= foregroundApp.toString()
-                handler.postDelayed(this, 2000)
+                handler.postDelayed(this, 1000)
             }
         }
 

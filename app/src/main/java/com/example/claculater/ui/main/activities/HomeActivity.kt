@@ -7,9 +7,9 @@ import com.example.claculater.R
 import com.example.claculater.base.BaseActivity
 import com.example.claculater.databinding.ActivityHomeBinding
 import com.example.claculater.ui.main.adapters.SectionsPagerAdapter
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.claculater.ui.main.fragments.PlaceholderFragment
 
-class HomeActivity : BaseActivity<ActivityHomeBinding>() {
+class HomeActivity : BaseActivity<ActivityHomeBinding>(){
     override val bindingInflater: (LayoutInflater) -> ActivityHomeBinding
         get() = ActivityHomeBinding::inflate
 
@@ -21,6 +21,26 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.tabs.setupWithViewPager(viewPager)
         binding.tabs.setTabTextColors(getColor(R.color.white), getColor(R.color.white))
 
+        viewPager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                ///ddd
+            }
+
+            override fun onPageSelected(position: Int) {
+                val current = supportFragmentManager.fragments[position]
+                    if (current is PlaceholderFragment)
+                        current.onTabChanged(position)
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                ///dddd
+            }
+
+        })
     }
 
     override fun onPause() {
@@ -34,4 +54,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun callBacks() {
     }
+
+
+
 }

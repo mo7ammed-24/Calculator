@@ -14,6 +14,9 @@ object DataManger {
     val NOT_LOCKED_APPS = "not_locked_apps"
     val LOCKED_APPS = "locked_apps"
     val SHARIN_APPS_INFO = "sharing_apps_info"
+    val PATTERN_SHARING = "pattern_sharing"
+    val PATTERN_CREATED = "pattern_created"
+    var LOCK_PASSWORD = ""
 
     val gson = Gson()
 
@@ -28,6 +31,7 @@ object DataManger {
 
 
     var userPassword:Int? = null
+    var patterCreated  = false
     private var appList = mutableListOf<AppInfo>()
     val apps  : List<AppInfo>
         get() = appList.toList()

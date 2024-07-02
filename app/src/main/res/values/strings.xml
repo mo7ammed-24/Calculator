@@ -22,4 +22,6 @@
     <string name="re_write_your_password">Re-Write Your Password</string>
     <string name="submit">Submit</string>
     <string name="unlock_the_pattern">Unlock The Pattern</string>
+    <string name="draw_your_pattern">Draw Your Pattern</string>
+    <string name="redraw_your_pattern">Re Draw Your Pattern</string>
 </resources>
