@@ -89,9 +89,9 @@ class AppLockService:Service() {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
         val notification = Notification.Builder(this, channelID).apply {
-            setContentTitle("Notification Title")
-            setContentText("This is Content")
-            setSmallIcon(R.drawable.ic_launcher_background)
+            setContentTitle("Calculator")
+            setContentText("Have A Good Day")
+            setSmallIcon(R.drawable.calculator)
             setOngoing(true)
         }.build()
         startForeground(SEDRVICE_ID, notification)
