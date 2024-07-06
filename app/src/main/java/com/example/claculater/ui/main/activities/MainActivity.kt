@@ -70,6 +70,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         filter.addAction(Intent.ACTION_SCREEN_ON)
         registerReceiver(myBrodcast, filter)
 
+        stopBatteryOptimizing()
 
         val intent2 = Intent(this, AppLockService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -86,6 +87,7 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         }
         super.onCreate(savedInstanceState)
     }
+
 
     override fun onRestart() {
         super.onRestart()
@@ -137,7 +139,18 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
     }
 
   //region permissions and access
-
+    fun stopBatteryOptimizing(){
+      val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+      val packageName = "org.traccar.client"
+      if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+          val intent = Intent()
+          if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+              intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+              intent.data = Uri.parse("package:$packageName")
+              startActivity(intent)
+          }
+      }
+    }
     fun openBatteryUsageSettings() {
             val powerManager = getSystemService(POWER_SERVICE) as PowerManager
             if (!powerManager.isIgnoringBatteryOptimizations(applicationInfo.packageName)) {

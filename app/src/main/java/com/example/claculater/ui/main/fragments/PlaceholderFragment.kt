@@ -1,21 +1,17 @@
 package com.example.claculater.ui.main.fragments
 
+
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.claculater.R
-import com.example.claculater.data.App
 import com.example.claculater.data.AppInfo
 import com.example.claculater.data.DataManger
 import com.example.claculater.databinding.FragmentHomeBinding
-import com.example.claculater.ui.main.activities.HomeActivity
 import com.example.claculater.ui.main.adapters.AppAdapter
 import com.example.claculater.ui.main.listener.AppInteractionListener
 import com.example.claculater.ui.main.viewModel.PageViewModel
@@ -29,6 +25,7 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
     private var _binding: FragmentHomeBinding? = null
     lateinit var adapter: AppAdapter
 
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -37,7 +34,6 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
         super.onCreate(savedInstanceState)
         DataManger.setAppsData(requireContext())
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java)
-
     }
 
 

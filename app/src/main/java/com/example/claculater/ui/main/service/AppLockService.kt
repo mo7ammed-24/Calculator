@@ -95,7 +95,6 @@ class AppLockService:Service() {
             setOngoing(true)
         }.build()
         startForeground(SEDRVICE_ID, notification)
-
         }
 
 
