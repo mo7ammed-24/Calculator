@@ -88,11 +88,14 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
 
                     if (str==argument2){
                         DataManger.patterCreated = true
+                        val sharedPrefs = this@LockActivity.getSharedPreferences(DataManger.PATTERN_SHARING, Context.MODE_PRIVATE)
+                        val editor = sharedPrefs.edit()
+                        editor.putBoolean(DataManger.PATTERN_CREATED, DataManger.patterCreated!!)
+                        editor.apply()
                         DataManger.LOCK_PASSWORD = str!!
                         finish()
                         val intent = Intent(this@LockActivity, MainActivity::class.java)
                         startActivity(intent)
-
                     }
                 }
 
