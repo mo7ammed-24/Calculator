@@ -30,7 +30,7 @@ object DataManger {
         get() = _lockedApps.toList()
 
 
-    var userPassword:Int? = null
+    var userPassword:Int? = 0
     var patterCreated  = false
     private var appList = mutableListOf<AppInfo>()
     val apps  : List<AppInfo>

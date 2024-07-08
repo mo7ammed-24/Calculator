@@ -62,15 +62,12 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestNotificationPermission()
-        openBatteryUsageSettings()
+
         val myBrodcast = MyBrodcastReciver()
         val filter = IntentFilter()
         filter.addAction(Intent.ACTION_BOOT_COMPLETED)
         filter.addAction(Intent.ACTION_SCREEN_ON)
         registerReceiver(myBrodcast, filter)
-
-        stopBatteryOptimizing()
 
         val intent2 = Intent(this, AppLockService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -85,6 +82,10 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
             startActivity(intent)
             finish()
         }
+
+        requestNotificationPermission()
+        openBatteryUsageSettings()
+        stopBatteryOptimizing()
         super.onCreate(savedInstanceState)
     }
 
