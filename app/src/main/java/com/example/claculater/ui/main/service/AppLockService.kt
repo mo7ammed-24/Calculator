@@ -61,6 +61,7 @@ class AppLockService:Service() {
                     val intent = Intent(this@AppLockService, LockActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     currentAppPackage = foregroundApp.toString()
+//                    bringPreviousAppToFront()
                     startActivity(intent)
                 }
                 else
@@ -97,6 +98,21 @@ class AppLockService:Service() {
         startForeground(SEDRVICE_ID, notification)
         }
 
-
-
+//    fun bringPreviousAppToFront() {
+//        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+//        val recentTasks = activityManager.getRecentTasks(2, ActivityManager.RECENT_WITH_EXCLUDED)
+//
+//        if (recentTasks.size > 1) {
+//            val previousTaskInfo = recentTasks[1] // Index 0 is your current app
+//            val baseIntent =Intent(previousTaskInfo.baseIntent)
+//            baseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//
+//            val pendingIntent = PendingIntent.getActivity(this, 0, baseIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+//            try {
+//                pendingIntent.send()
+//            } catch (e: PendingIntent.CanceledException) {
+//                // Handle the exception, e.g., log the error
+//            }
+//        }
+//    }
 }

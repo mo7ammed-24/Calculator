@@ -3,13 +3,9 @@ package com.example.claculater.ui.main.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
 import androidx.lifecycle.lifecycleScope
 import com.example.claculater.R
 import com.example.claculater.base.BaseActivity
@@ -28,10 +24,11 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("hggg", "i am in the create lifecycle")
+
         val sharedPrefs = this@LockActivity.getSharedPreferences(DataManger.PATTERN_SHARING, Context.MODE_PRIVATE)
-        val editor = sharedPrefs.edit()
-        editor.putBoolean(DataManger.PATTERN_CREATED, DataManger.patterCreated!!)
-        editor.apply()
+        DataManger.patterCreated = sharedPrefs.getBoolean(DataManger.PATTERN_CREATED_KEY, false)
+        DataManger.LOCK_PASSWORD = sharedPrefs.getString(DataManger.LOCK_PASSWORD_KEY, "")!!
+
         argument= intent.getIntExtra("args",0)
         lifecycleScope.launch {
             val text = withContext(Dispatchers.IO) {
@@ -49,6 +46,8 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
                 else if(argument==2){binding.textPattern.text = text2}
             }
         }
+
+
     }
 
 
@@ -90,7 +89,8 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
                         DataManger.patterCreated = true
                         val sharedPrefs = this@LockActivity.getSharedPreferences(DataManger.PATTERN_SHARING, Context.MODE_PRIVATE)
                         val editor = sharedPrefs.edit()
-                        editor.putBoolean(DataManger.PATTERN_CREATED, DataManger.patterCreated!!)
+                        editor.putBoolean(DataManger.PATTERN_CREATED_KEY, DataManger.patterCreated!!)
+                        editor.putString(DataManger.LOCK_PASSWORD_KEY, str!!)
                         editor.apply()
                         DataManger.LOCK_PASSWORD = str!!
                         finish()
@@ -103,13 +103,13 @@ class LockActivity:BaseActivity<ActivityLockBinding>(){
                     ids.forEach {
                         str+=it.toString()
                     }
+                    Log.i("sssd", "this: ${DataManger.LOCK_PASSWORD}")
                     if (str == DataManger.LOCK_PASSWORD){
                         isOpened=true
                         finishAndRemoveTask()
                         isOpened=false
                     }
                 }
-
                 return str == DataManger.LOCK_PASSWORD
             }
         })

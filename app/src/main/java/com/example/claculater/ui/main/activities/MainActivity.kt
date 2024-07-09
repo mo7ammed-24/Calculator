@@ -68,7 +68,6 @@ class MainActivity: BaseActivity<ActivityMainBinding>() {
         filter.addAction(Intent.ACTION_BOOT_COMPLETED)
         filter.addAction(Intent.ACTION_SCREEN_ON)
         registerReceiver(myBrodcast, filter)
-
         val intent2 = Intent(this, AppLockService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForegroundService(intent2)

@@ -1,6 +1,5 @@
 package com.example.claculater.data
 
-import android.R.attr
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
@@ -15,7 +14,8 @@ object DataManger {
     val LOCKED_APPS = "locked_apps"
     val SHARIN_APPS_INFO = "sharing_apps_info"
     val PATTERN_SHARING = "pattern_sharing"
-    val PATTERN_CREATED = "pattern_created"
+    val PATTERN_CREATED_KEY = "pattern_created"
+    val LOCK_PASSWORD_KEY = "lock_password_key"
     var LOCK_PASSWORD = ""
 
     val gson = Gson()
