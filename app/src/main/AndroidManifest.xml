@@ -27,6 +27,7 @@
 
         <activity android:name=".ui.main.activities.LockActivity"
             android:exported="false"
+            android:launchMode="singleInstance"
             android:label="LockActivity"
             android:theme="@style/Theme.Calculator.NoActionBar"/>
         <activity
@@ -42,7 +43,6 @@
             android:theme="@style/Theme.Calculator.NoActionBar" />
         <activity
             android:name=".ui.main.activities.MainActivity"
-            android:launchMode="singleInstance"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
