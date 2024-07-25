@@ -36,7 +36,7 @@ class PasswordActivity:BaseActivity<ActivityCreatePasswordBinding>() {
                 }
 
                 else{
-                    val intent = Intent(this, LockActivity::class.java)
+                    val intent = Intent(this, SetupLockPasswordActivity::class.java)
                     intent.putExtra("args", 1)
                     startActivity(intent)
                     finish()

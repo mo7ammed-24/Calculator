@@ -35,6 +35,11 @@
             android:exported="false"
             android:label="PasswordActivity"
             android:theme="@style/Theme.Calculator.NoActionBar"/>
+        <activity
+            android:name=".ui.main.activities.SetupLockPasswordActivity"
+            android:exported="false"
+            android:label="SetupLockPasswordActivity"
+            android:theme="@style/Theme.Calculator.NoActionBar"/>
 
         <activity
             android:name=".ui.main.activities.HomeActivity"

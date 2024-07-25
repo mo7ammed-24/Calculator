@@ -72,7 +72,7 @@ class AppLockService:Service() {
 
         handler.post(runnable)
 //        Log.i("fxxxfff", foregroundApp.toString())
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
 //    private fun showMessage() {
