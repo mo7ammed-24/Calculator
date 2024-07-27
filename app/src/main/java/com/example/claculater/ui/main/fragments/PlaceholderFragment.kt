@@ -116,11 +116,17 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
             Log.i("gbnf", "$isLocked  "   + " + $app")
             if (isLocked){
                 DataManger.lockeTheApp(app)
-                adapter.setData(DataManger.notLockedApps)
+                if (DataManger.notLockedApps.isEmpty())
+                    binding.recyclerApp.visibility = View.GONE
+                else
+                    adapter.setData(DataManger.notLockedApps)
             }
             else{
                 DataManger.openTheApp(app)
-                adapter.setData(DataManger.lockedApps)
+                if (DataManger.lockedApps.isEmpty())
+                    binding.recyclerApp.visibility = View.GONE
+                else
+                    adapter.setData(DataManger.lockedApps)
             }
 
 //            if((arguments?.getInt(ARG_SECTION_NUMBER) ?: 1) != 2)
@@ -132,11 +138,20 @@ class PlaceholderFragment : Fragment(), AppInteractionListener{
      fun onTabChanged(position: Int){
         Log.i("ddfs", position.toString())
         if (position==0 && DataManger.notLockedApps.size>0){
-            adapter.setData(DataManger.notLockedApps)
+            if (DataManger.notLockedApps.isEmpty())
+                binding.recyclerApp.visibility = View.GONE
+            else {
+                adapter.setData(DataManger.notLockedApps)
+            binding.recyclerApp.visibility = View.VISIBLE}
         }
         else if (position==1 && DataManger.lockedApps.size>0){
-            val new = DataManger.lockedApps
-            adapter.setData(DataManger.lockedApps)
+            if (DataManger.lockedApps.isEmpty())
+                binding.recyclerApp.visibility = View.GONE
+            else {
+                adapter.setData(DataManger.lockedApps)
+                binding.recyclerApp.visibility = View.VISIBLE
+            }
+
         }
 
 
