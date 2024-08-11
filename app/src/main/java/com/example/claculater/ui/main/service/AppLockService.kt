@@ -57,12 +57,19 @@ class AppLockService:Service() {
                 // Find the foreground app based on last active time
                 val foregroundApp = stats.maxByOrNull { it.lastTimeUsed }?.packageName
                 Log.i("hhhfff", foregroundApp.toString())
+                Log.i("this is Locked Apps Package Name ", DataManger.lockedAppsPackageNames.toString())
                 if (foregroundApp in DataManger.lockedAppsPackageNames && currentAppPackage!=foregroundApp && currentAppPackage!=applicationContext.packageName) {
                     val intent = Intent(this@AppLockService, LockActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
                     currentAppPackage = foregroundApp.toString()
 //                    bringPreviousAppToFront()
-                    startActivity(intent)
+                    try {
+                        pendingIntent.send()
+                        Log.i("R000000000000000", "HI THIS INSIDE TRY")
+                    } catch (e: PendingIntent.CanceledException){
+                        Log.i("R000000000000000", e.message.toString())
+                    }
                 }
                 else
                     currentAppPackage= foregroundApp.toString()

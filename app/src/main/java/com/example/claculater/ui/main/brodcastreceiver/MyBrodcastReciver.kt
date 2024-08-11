@@ -6,11 +6,13 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat.startForegroundService
+import com.example.claculater.data.DataManger
 import com.example.claculater.ui.main.service.AppLockService
 
 class MyBrodcastReciver:BroadcastReceiver(){
     override fun onReceive(p0: Context?, p1: Intent?) {
         if(p1?.action==Intent.ACTION_BOOT_COMPLETED) {
+            DataManger.setAppsData(p0!!)
             val intent2 = Intent(p0, AppLockService::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 p0?.startForegroundService(intent2)
